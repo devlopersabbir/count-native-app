@@ -4,15 +4,15 @@ import { RootStackParamsList } from "../utils/types/type";
 import Home from "./home/HomeScreen";
 import Settings from "./settings/SettingScreen";
 
-const Stack = createNativeStackNavigator<RootStackParamsList>();
+const RootStack = createNativeStackNavigator<RootStackParamsList>();
 
 const MainScreen = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Settings" component={Settings} />
-      </Stack.Navigator>
+      <RootStack.Navigator initialRouteName="Home">
+        <RootStack.Screen name="Home" component={Home} />
+        {/* <Stack.Screen name="Settings" component={Settings} /> */}
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };

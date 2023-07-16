@@ -7,7 +7,11 @@ type Props = {
 };
 
 const AppContainer = ({ children }: Props) => {
-  return <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>;
+  return (
+    <>
+      <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>
+    </>
+  );
 };
 
 export default AppContainer;

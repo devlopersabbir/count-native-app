@@ -1,12 +1,24 @@
 import { Flex, View, ScrollView, Text } from "native-base";
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import Header from "../../components/Topbar/Header";
 import Footer from "../../components/Bottom/Footer";
 import Counter from "../../components/Counter/Counter";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { HomeScreen } from "../../utils/pages/pageTypes";
+import { HomeScreens } from "../../utils/pages/pageTypes";
+import {
+  NavigationProp,
+  PartialRoute,
+  useNavigation,
+} from "@react-navigation/native";
 
-const HomeScreen: React.FC<HomeScreen> = ({ navigation }) => {
+const HomeScreen = ({ navigation }: HomeScreens) => {
+  const navigations = useNavigation();
+
+  useLayoutEffect(() => {
+    navigations.setOptions({
+      headerShown: false,
+    });
+  }, []);
   useEffect(() => {
     const getListFromStorage = async () => {
       try {
@@ -22,8 +34,7 @@ const HomeScreen: React.FC<HomeScreen> = ({ navigation }) => {
 
   return (
     <View flex={10}>
-      <Text>Hello world</Text>
-      {/* <Flex color="white" flex={1.5} bg="blue.500">
+      <Flex color="white" flex={1.5} bg="blue.500">
         <Header />
       </Flex>
       <Flex flex={8}>
@@ -33,7 +44,7 @@ const HomeScreen: React.FC<HomeScreen> = ({ navigation }) => {
       </Flex>
       <Flex flex={1}>
         <Footer />
-      </Flex> */}
+      </Flex>
     </View>
   );
 };
