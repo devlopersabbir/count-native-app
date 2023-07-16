@@ -1,4 +1,4 @@
-import { Flex, View, ScrollView } from "native-base";
+import { Flex, View, ScrollView, Text } from "native-base";
 import React, { useEffect } from "react";
 import Header from "../components/Topbar/Header";
 import Footer from "../components/Bottom/Footer";
@@ -18,6 +18,14 @@ const MainScreen = () => {
 
     getListFromStorage();
   }, []);
+
+  const rightSwipe = () => {
+    return (
+      <View>
+        <Text>Hello world</Text>
+      </View>
+    );
+  };
   return (
     <View flex={10}>
       <Flex color="white" flex={1.5} bg="blue.500">
