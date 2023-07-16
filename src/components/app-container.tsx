@@ -1,6 +1,5 @@
 import * as React from "react";
 import { NativeBaseProvider } from "native-base";
-import { NavigationContainer } from "@react-navigation/native";
 import { theme } from "../theme/Native";
 
 type Props = {
@@ -8,11 +7,7 @@ type Props = {
 };
 
 const AppContainer = ({ children }: Props) => {
-  return (
-    <NavigationContainer>
-      <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>
-    </NavigationContainer>
-  );
+  return <NativeBaseProvider theme={theme}>{children}</NativeBaseProvider>;
 };
 
 export default AppContainer;
