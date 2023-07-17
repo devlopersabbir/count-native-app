@@ -11,7 +11,7 @@ const MainScreen = () => {
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Home">
         <RootStack.Screen name="Home" component={Home} />
-        {/* <Stack.Screen name="Settings" component={Settings} /> */}
+        <RootStack.Screen name="Settings" component={Settings} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

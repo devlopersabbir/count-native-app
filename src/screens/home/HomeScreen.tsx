@@ -1,15 +1,12 @@
-import { Flex, View, ScrollView, Text } from "native-base";
+import { Flex, View, ScrollView, Text, Center, IconButton } from "native-base";
 import React, { useEffect, useLayoutEffect } from "react";
 import Header from "../../components/Topbar/Header";
 import Footer from "../../components/Bottom/Footer";
 import Counter from "../../components/Counter/Counter";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { HomeScreens } from "../../utils/pages/pageTypes";
-import {
-  NavigationProp,
-  PartialRoute,
-  useNavigation,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }: HomeScreens) => {
   const navigations = useNavigation();
@@ -43,7 +40,15 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
         </ScrollView>
       </Flex>
       <Flex flex={1}>
-        <Footer />
+        <Center w="full" h="full">
+          <IconButton
+            onPress={() => navigation.navigate("Settings")}
+            rounded="full"
+            shadow="9"
+            bg="white"
+            icon={<Feather name="settings" size={30} color="black" />}
+          />
+        </Center>
       </Flex>
     </View>
   );
