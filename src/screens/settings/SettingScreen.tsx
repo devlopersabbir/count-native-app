@@ -126,6 +126,27 @@ const Settings = ({ navigation }: SettingScreens) => {
               </Text>
               <Switch size="md" colorScheme="amber" />
             </HStack>
+            {/* Default Counter Style */}
+            <Pressable>
+              <HStack
+                py={3}
+                borderBottomWidth="1"
+                borderBottomColor="gray.200"
+                justifyContent="space-between"
+              >
+                <Text fontSize="lg" fontWeight="normal">
+                  Default Counter Style
+                </Text>
+                <Text fontSize="lg" fontWeight="normal" color="blue.400">
+                  Clasic
+                </Text>
+                <Icon
+                  size="lg"
+                  color="gray.400"
+                  as={<MaterialIcons name="arrow-forward-ios" />}
+                />
+              </HStack>
+            </Pressable>
             {/* Screen Always On */}
             <HStack
               py={3}
@@ -138,6 +159,60 @@ const Settings = ({ navigation }: SettingScreens) => {
               </Text>
               <Switch size="md" colorScheme="amber" />
             </HStack>
+            {/* Upgrade: Ad free */}
+            <Pressable>
+              <HStack
+                py={3}
+                borderBottomWidth="1"
+                borderBottomColor="gray.200"
+                justifyContent="space-between"
+              >
+                <Text fontSize="lg" fontWeight="normal">
+                  Upgrade: Ad free
+                </Text>
+                <Icon
+                  size="lg"
+                  color="gray.400"
+                  as={<MaterialIcons name="arrow-forward-ios" />}
+                />
+              </HStack>
+            </Pressable>
+            {/* Supports */}
+            <Pressable>
+              <HStack
+                py={3}
+                borderBottomWidth="1"
+                borderBottomColor="gray.200"
+                justifyContent="space-between"
+              >
+                <Text fontSize="lg" fontWeight="normal">
+                  Supports
+                </Text>
+                <Icon
+                  size="lg"
+                  color="gray.400"
+                  as={<MaterialIcons name="arrow-forward-ios" />}
+                />
+              </HStack>
+            </Pressable>
+            {/* privacy */}
+            <Pressable>
+              <HStack
+                py={3}
+                borderBottomWidth="1"
+                borderBottomColor="gray.200"
+                justifyContent="space-between"
+              >
+                <Text fontSize="lg" fontWeight="normal">
+                  Privacy Policy
+                </Text>
+                <Icon
+                  size="lg"
+                  color="gray.400"
+                  as={<MaterialIcons name="arrow-forward-ios" />}
+                />
+              </HStack>
+            </Pressable>
           </VStack>
         </ScrollView>
       </Flex>
