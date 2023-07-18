@@ -11,5 +11,5 @@ export interface ICounterSliceState {
 export interface ICount {
     uuid: string;
     name?: string;
-    count: number;
+    count?: number;
 }

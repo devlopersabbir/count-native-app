@@ -1,33 +1,9 @@
-import {
-  Box,
-  Text,
-  View,
-  Flex,
-  Pressable,
-  Heading,
-  Icon,
-  HStack,
-} from "native-base";
+import { Box, Text, Flex, Pressable, Heading, Icon, HStack } from "native-base";
 import { SafeAreaView } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import uuid from "react-native-uuid";
-import { ICount, ICountSliceState } from "../../utils/interfaces/interface";
-import { create_new_count } from "../../redux/slice/countSlice";
-import { useDispatch } from "react-redux";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const createNewCounter = async () => {
-    const createNewList: ICount = {
-      uuid: uuid.v4() as string,
-      name: "Count",
-      count: 0,
-    };
-    dispatch(create_new_count(createNewList));
-  };
   return (
     <SafeAreaView>
       <Flex
@@ -72,7 +48,7 @@ const Header = () => {
               />
             </Pressable>
             {/* Add new button */}
-            <Pressable onPress={createNewCounter}>
+            <Pressable>
               <Icon color="white" size="xl" as={<Ionicons name="md-add" />} />
             </Pressable>
           </HStack>

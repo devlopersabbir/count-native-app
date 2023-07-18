@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "../utils/types/type";
 import Home from "./home/HomeScreen";
 import Settings from "./settings/SettingScreen";
+import Counter from "./counter/Counter";
 
 const RootStack = createNativeStackNavigator<RootStackParamsList>();
 
@@ -12,6 +13,7 @@ const MainScreen = () => {
       <RootStack.Navigator initialRouteName="Home">
         <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="Settings" component={Settings} />
+        <RootStack.Screen name="counter" component={Counter} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

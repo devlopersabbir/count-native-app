@@ -2,7 +2,6 @@ import { Box, Flex, HStack, Heading, Icon, Pressable, Text } from "native-base";
 import React, { useEffect, useState } from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { ICount } from "../../utils/interfaces/interface";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Counter = ({ count, uuid, name }: ICount) => {
   const [countTitle, setCountTitle] = useState<string | null>(name || "Count");

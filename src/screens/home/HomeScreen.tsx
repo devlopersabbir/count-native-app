@@ -1,9 +1,7 @@
-import { Flex, View, ScrollView, Text, Center, IconButton } from "native-base";
+import { Flex, View, ScrollView, Center, IconButton } from "native-base";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import Header from "../../components/Topbar/Header";
-import Footer from "../../components/Bottom/Footer";
 import Counter from "../../components/Counter/Counter";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { HomeScreens } from "../../utils/pages/pageTypes";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
@@ -22,7 +20,6 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
   }, []);
   useEffect(() => {
     setCounterList(lists);
-    console.log("list", lists);
   }, [lists]);
 
   return (
@@ -32,10 +29,9 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
       </Flex>
       <Flex flex={8}>
         <ScrollView>
-          {counterList &&
-            counterList.map(({ count, uuid, name }: ICount, index: number) => (
-              <Counter count={count} name={name} uuid={uuid} key={index} />
-            ))}
+          {[0, 1, 2, 3, 4, 5].map((item, index) => (
+            <Counter uuid={`${index}`} key={index} />
+          ))}
         </ScrollView>
       </Flex>
       <Flex flex={1}>
