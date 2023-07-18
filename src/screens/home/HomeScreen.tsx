@@ -1,5 +1,5 @@
 import { Flex, View, ScrollView, Text, Center, IconButton } from "native-base";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Header from "../../components/Topbar/Header";
 import Footer from "../../components/Bottom/Footer";
 import Counter from "../../components/Counter/Counter";
@@ -7,8 +7,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { HomeScreens } from "../../utils/pages/pageTypes";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
+import { ICount } from "../../utils/interfaces/interface";
+import { useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation }: HomeScreens) => {
+  const { lists } = useSelector(({ countReducer }: any) => countReducer);
+  const [counterList, setCounterList] = useState<ICount[]>([]);
   const navigations = useNavigation();
 
   useLayoutEffect(() => {
@@ -17,17 +21,8 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
     });
   }, []);
   useEffect(() => {
-    const getListFromStorage = async () => {
-      try {
-        const res = await AsyncStorage.getItem("create-list");
-        console.log("res: ", res);
-      } catch (error) {
-        if (error) return console.log("Error: ", error);
-      }
-    };
-
-    getListFromStorage();
-  }, []);
+    setCounterList(lists);
+  }, [lists]);
 
   return (
     <View flex={10}>
@@ -36,7 +31,10 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
       </Flex>
       <Flex flex={8}>
         <ScrollView>
-          <Counter />
+          {counterList &&
+            counterList.map(({ count, uuid, name }: ICount, index: number) => (
+              <Counter count={count} name={name} uuid={uuid} key={index} />
+            ))}
         </ScrollView>
       </Flex>
       <Flex flex={1}>

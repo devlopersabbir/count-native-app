@@ -1,17 +1,12 @@
 import { Box, Flex, HStack, Heading, Icon, Pressable, Text } from "native-base";
 import React, { useEffect, useState } from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { ICount } from "../../utils/interfaces/interface";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-interface ICounterProps {
-  countTitle: string;
-  countValue: number;
-  increment: void;
-  decrement: void;
-}
-
-const Counter = () => {
-  const [countTitle, setCountTitle] = useState<string | null>(null);
-  const [countValue, setCountValue] = useState<number>(0);
+const Counter = ({ count, uuid, name }: ICount) => {
+  const [countTitle, setCountTitle] = useState<string | null>(name || "Count");
+  const [countValue, setCountValue] = useState<number>(count || 0);
 
   const increment = () => {
     setCountValue(countValue + 1);

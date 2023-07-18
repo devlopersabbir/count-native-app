@@ -12,24 +12,21 @@ import { SafeAreaView } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import uuid from "react-native-uuid";
+import { ICount, ICountSliceState } from "../../utils/interfaces/interface";
+import { create_new_count } from "../../redux/slice/countSlice";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const createNewCounter = async () => {
-    const createNewList = {
-      countValue: 0,
-      countTitle: null,
-      uuid: uuid.v4(),
+    const createNewList: ICount = {
+      uuid: uuid.v4() as string,
+      name: "Count",
+      count: 0,
     };
-    try {
-      await AsyncStorage.setItem(
-        "create-list",
-        JSON.stringify([createNewList])
-      );
-    } catch (error) {
-      console.log("error: ", error);
-    }
+    dispatch(create_new_count(createNewList));
   };
   return (
     <SafeAreaView>
