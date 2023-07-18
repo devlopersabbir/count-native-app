@@ -22,6 +22,7 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
   }, []);
   useEffect(() => {
     setCounterList(lists);
+    console.log("list", lists);
   }, [lists]);
 
   return (

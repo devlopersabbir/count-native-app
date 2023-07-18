@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ICount, ICountSliceState } from "../../utils/interfaces/interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 
 const initialState: ICountSliceState = {
     lists: []
@@ -17,25 +18,39 @@ export const countSlice = createSlice({
     name: "countList",
     initialState,
     reducers: {
-        create_new_count: (state: ICountSliceState, action: PayloadAction<ICount>) => {
-            state.lists?.push(action.payload)
-            console.log("current state: ", state.lists)
-
-            // storage list into local storage
-            AsyncStorage.setItem("counterList", JSON.stringify(state.lists))
-        },
-        delete_counter: (state: ICountSliceState, action: PayloadAction<ICount>) => {
-            const { uuid } = action.payload;
-            const index = state.lists?.findIndex(item => item.uuid === uuid);
-            if (index !== -1) {
-                state.lists?.slice(index, 1);
+        addCountList: (state: ICountSliceState, action: PayloadAction<string>) => {
+            const newCountList: ICount = {
+                uuid: uuid.v4() as string,
+                name: action.payload,
+                count: 0
             }
+            state.lists?.push(newCountList)
+        },
+        updateCount: (state: ICountSliceState, action: PayloadAction<ICount>) => {
+            const { count, uuid } = action.payload;
+            const countList = state.lists?.find((list: ICount) => list.uuid === uuid);
 
-            AsyncStorage.setItem("counterList", JSON.stringify(state.lists))
-        }
+            if (countList) {
+                countList.count += count;
+            }
+        },
+        updateName: (state: ICountSliceState, action: PayloadAction<ICount>) => {
+            const { uuid, name } = action.payload;
+            const countList = state.lists?.find((list: ICount) => list.uuid === uuid);
+            if (countList) {
+                countList.name = name;
+            }
+        },
+        deleteCountList: (state, action: PayloadAction<ICount>) => {
+            const index = state.lists?.findIndex((list: ICount) => list.uuid === action.payload.uuid);
+            if (index !== -1) {
+                console.log('delete:', index)
+                state.lists?.splice(index as number, 1)
+            }
+        },
     }
 })
 
 
-export const { create_new_count, delete_counter } = countSlice.actions;
+export const { addCountList, deleteCountList, updateCount, updateName } = countSlice.actions;
 export default countSlice.reducer
