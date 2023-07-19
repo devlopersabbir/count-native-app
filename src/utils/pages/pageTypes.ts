@@ -5,4 +5,4 @@ export type HomeScreens = NativeStackScreenProps<RootStackParamsList, "Home">
 
 export type SettingScreens = NativeStackScreenProps<RootStackParamsList, "Settings">
 
-export type CounterScreen = NativeStackScreenProps<RootStackParamsList, "counter">
+export type CounterScreen = NativeStackScreenProps<RootStackParamsList, "Counter">

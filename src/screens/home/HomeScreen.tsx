@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 
 const HomeScreen = ({ navigation }: HomeScreens) => {
   const { lists } = useSelector(({ countReducer }: any) => countReducer);
-  const [counterList, setCounterList] = useState<ICount[]>([]);
   const navigations = useNavigation();
 
   useLayoutEffect(() => {
@@ -18,9 +17,9 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
       headerShown: false,
     });
   }, []);
-  useEffect(() => {
-    setCounterList(lists);
-  }, [lists]);
+  // useEffect(() => {
+  //   console.log("count list: from redux: ", countList);
+  // }, []);
 
   return (
     <View flex={10}>
@@ -29,9 +28,16 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
       </Flex>
       <Flex flex={8}>
         <ScrollView>
-          {[0, 1, 2, 3, 4, 5].map((item, index) => (
-            <Counter uuid={`${index}`} key={index} />
-          ))}
+          {lists &&
+            lists.map((item: ICount, index: number) => (
+              <Counter
+                navigation={navigation}
+                uuid={item?.uuid}
+                name={item?.name}
+                count={item?.count}
+                key={index}
+              />
+            ))}
         </ScrollView>
       </Flex>
       <Flex flex={1}>
