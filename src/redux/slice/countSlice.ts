@@ -67,7 +67,7 @@ const countListSlice = createSlice({
               (list) => list.uuid !== uuid
           ) as ICount[];
           saveCountLists(state.lists);
-      },
+        }  
     },
 });
 
