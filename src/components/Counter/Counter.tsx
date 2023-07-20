@@ -1,9 +1,8 @@
 import { Box, Flex, HStack, Heading, Icon, Pressable, Text } from "native-base";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { ICount } from "../../utils/interfaces/interface";
 import { useDispatch } from "react-redux";
-import { deleteCountList, updateCount } from "../../redux/slice/countSlice";
+import { updateCount } from "../../redux/slice/countSlice";
 
 interface ICounterProps {
   count: number;
@@ -33,7 +32,13 @@ const Counter = ({ count, uuid, name, navigation }: ICounterProps) => {
       borderColor="gray.300"
     >
       <Pressable
-        onPress={() => navigation.navigate("Counter")}
+        onPress={() =>
+          navigation.navigate("Counter", {
+            uuid,
+            count,
+            name,
+          })
+        }
         display="flex"
         w="70%"
         flexDir="row"
