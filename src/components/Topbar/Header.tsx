@@ -2,16 +2,11 @@ import { Box, Text, Flex, Pressable, Heading, Icon, HStack } from "native-base";
 import { SafeAreaView } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
-import { addCountList } from "../../redux/slice/countSlice";
+import useCounter from "../../hooks/useCounter";
+import uuid from "react-native-uuid";
 
 const Header = () => {
-  const dispatch = useDispatch();
-
-  const createNewList = () => {
-    console.log("created");
-    dispatch(addCountList("Count"));
-  };
+  const { addNewList } = useCounter();
 
   return (
     <SafeAreaView>
@@ -57,7 +52,15 @@ const Header = () => {
               />
             </Pressable>
             {/* Add new button */}
-            <Pressable onPress={createNewList}>
+            <Pressable
+              onPress={() =>
+                addNewList({
+                  uuid: uuid.v4() as string,
+                  count: 0,
+                  name: "Count",
+                })
+              }
+            >
               <Icon color="white" size="xl" as={<Ionicons name="md-add" />} />
             </Pressable>
           </HStack>

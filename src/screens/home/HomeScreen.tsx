@@ -1,4 +1,13 @@
-import { Flex, View, ScrollView, Center, IconButton } from "native-base";
+import {
+  Flex,
+  View,
+  ScrollView,
+  Center,
+  IconButton,
+  Toast,
+  useToast,
+  Spinner,
+} from "native-base";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import Header from "../../components/Topbar/Header";
 import Counter from "../../components/Counter/Counter";
@@ -7,19 +16,43 @@ import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { ICount } from "../../utils/interfaces/interface";
 import { useSelector } from "react-redux";
+import useCounter from "../../hooks/useCounter";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({ navigation }: HomeScreens) => {
-  const { lists } = useSelector(({ countReducer }: any) => countReducer);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigations = useNavigation();
+  const { setAllLists, countList } = useCounter();
 
   useLayoutEffect(() => {
     navigations.setOptions({
       headerShown: false,
     });
   }, []);
-  // useEffect(() => {
-  //   console.log("count list: from redux: ", countList);
-  // }, []);
+  useEffect(() => {
+    const getListFromStroage = async () => {
+      try {
+        setLoading(true);
+        const res: string = (await AsyncStorage.getItem(
+          "count-list"
+        )) as string;
+        const resData: ICount[] = JSON.parse(res);
+
+        if (resData) {
+          setAllLists(resData);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (error) {
+          setLoading(false);
+          console.log(error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    getListFromStroage();
+  }, []);
 
   return (
     <View flex={10}>
@@ -28,8 +61,11 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
       </Flex>
       <Flex flex={8}>
         <ScrollView>
-          {lists &&
-            lists.map((item: ICount, index: number) => (
+          {loading ? (
+            <Spinner mt="50%" size="lg" />
+          ) : (
+            countList &&
+            countList.map((item: ICount, index: number) => (
               <Counter
                 navigation={navigation}
                 uuid={item?.uuid}
@@ -37,7 +73,8 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
                 count={item?.count}
                 key={index}
               />
-            ))}
+            ))
+          )}
         </ScrollView>
       </Flex>
       <Flex flex={1}>

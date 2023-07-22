@@ -11,21 +11,22 @@ const initialState: ICountSliceState = {
 //     initialState.lists = JSON.parse(countLists);
 // });
 
-// const saveCountLists = (countLists: ICount[]) => {
-//     AsyncStorage.setItem("counterList", JSON.stringify(countLists));
-// };
+const saveCountLists = (countLists: ICount[]) => {
+    AsyncStorage.setItem("count-list", JSON.stringify(countLists));
+};
 
 const countListSlice = createSlice({
     name: "countList",
     initialState,
     reducers: {
-      addCountList: (state, action: PayloadAction<string>) => {
-          const newCountList: ICount = {
-              uuid: uuid.v4() as string,
-              name: action.payload,
-              count: 0,
-          };
-            state.lists = [...(state.lists as any), newCountList];
+        setAllList: (state, action: PayloadAction<ICount[]>) => {
+            state.lists = action.payload;
+        },
+
+        addCountList: (state, action: PayloadAction<ICount>) => {
+            state.lists = [...(state.lists as any), action.payload];
+
+            saveCountLists(state.lists)
       },
       updateCount: (
           state,
@@ -40,7 +41,7 @@ const countListSlice = createSlice({
 
           if (singleList) {
               singleList.count += count;
-            //   saveCountLists(state.lists as ICount[]);
+              //   saveCountLists(state.lists as ICount[]);
           }
       },
       updateName: (
@@ -55,20 +56,25 @@ const countListSlice = createSlice({
           );
           if (singleList) {
               singleList.name = name;
-            //   saveCountLists(state.lists as ICount[]);
+              //   saveCountLists(state.lists as ICount[]);
           }
       },
 
-      deleteCountList: (state, action: PayloadAction<{ uuid: string }>) => {
+        deleteCount: (state, action: PayloadAction<{ uuid: string }>) => {
           const { uuid } = action.payload;
           state.lists = state.lists?.filter(
               (list) => list.uuid !== uuid
           ) as ICount[];
-        //   saveCountLists(state.lists);
-        }  
+      //   saveCountLists(state.lists);
+        },
     },
 });
 
-export const { addCountList, deleteCountList, updateCount, updateName } =
-    countListSlice.actions;
+export const {
+    setAllList,
+    addCountList,
+    deleteCount,
+    updateCount,
+    updateName,
+} = countListSlice.actions;
 export default countListSlice.reducer;
