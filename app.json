@@ -25,7 +25,7 @@
       "package": "com.devlopersabbir.countnativeapp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/splashLogo.png"
     },
     "extra": {
       "eas": {

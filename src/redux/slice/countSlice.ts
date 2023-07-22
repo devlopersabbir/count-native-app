@@ -4,16 +4,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 
 const initialState: ICountSliceState = {
-    lists: null,
+    lists: [],
 };
 
-AsyncStorage.getItem("counterList").then((countLists: any) => {
-    initialState.lists = JSON.parse(countLists);
-});
+// AsyncStorage.getItem("counterList").then((countLists: any) => {
+//     initialState.lists = JSON.parse(countLists);
+// });
 
-const saveCountLists = (countLists: ICount[]) => {
-    AsyncStorage.setItem("counterList", JSON.stringify(countLists));
-};
+// const saveCountLists = (countLists: ICount[]) => {
+//     AsyncStorage.setItem("counterList", JSON.stringify(countLists));
+// };
 
 const countListSlice = createSlice({
     name: "countList",
@@ -25,9 +25,7 @@ const countListSlice = createSlice({
               name: action.payload,
               count: 0,
           };
-
-          state.lists = [...(state.lists as any), newCountList];
-          saveCountLists(state.lists);
+            state.lists = [...(state.lists as any), newCountList];
       },
       updateCount: (
           state,
@@ -42,7 +40,7 @@ const countListSlice = createSlice({
 
           if (singleList) {
               singleList.count += count;
-              saveCountLists(state.lists as ICount[]);
+            //   saveCountLists(state.lists as ICount[]);
           }
       },
       updateName: (
@@ -57,7 +55,7 @@ const countListSlice = createSlice({
           );
           if (singleList) {
               singleList.name = name;
-              saveCountLists(state.lists as ICount[]);
+            //   saveCountLists(state.lists as ICount[]);
           }
       },
 
@@ -66,7 +64,7 @@ const countListSlice = createSlice({
           state.lists = state.lists?.filter(
               (list) => list.uuid !== uuid
           ) as ICount[];
-          saveCountLists(state.lists);
+        //   saveCountLists(state.lists);
         }  
     },
 });
