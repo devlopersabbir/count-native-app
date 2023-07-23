@@ -1,9 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ICount } from "../utils/interfaces/interface";
-import { addCountList, deleteCount, setAllList, updateCount, updateName } from "../redux/slice/countSlice";
+import { ICount, ICountSliceState } from "../utils/interfaces/interface";
+import {
+    addCountList,
+    deleteCount,
+    setAllList,
+    set_selected_item,
+    unset_selected_item,
+    updateCount,
+    updateName,
+} from "../redux/slice/countSlice";
 
 const useCounter = () => {
-    const { lists } = useSelector(({ countReducer }) => countReducer);
+    const lists: ICountSliceState = useSelector(
+        ({ countReducer }) => countReducer
+    );
     const dispatch = useDispatch();
 
     const setAllCountList = (lists: ICount[]) => {
@@ -13,22 +23,33 @@ const useCounter = () => {
         dispatch(addCountList(item));
     };
     const updateSingleCount = (count: number, uuid: string) => {
-        dispatch(updateCount({ uuid, count }))
+        dispatch(updateCount({ uuid, count }));
     };
     const deleteSingleCount = (uuid: string) => {
-        dispatch(deleteCount({ uuid }))
+        dispatch(deleteCount({ uuid }));
     };
     const updateSingelCountName = (uuid: string, name: string) => {
-        dispatch(updateName({ uuid, name }))
-    }
+        dispatch(updateName({ uuid, name }));
+    };
+    const setSelectedItem = (item: ICount) => {
+        dispatch(set_selected_item(item));
+    };
+    const unsetSelectedItem = () => {
+        dispatch(unset_selected_item());
+    };
 
     return {
-        countList: lists,
+        countListState: {
+            lists: lists.lists,
+            selectedItem: lists.selectedItem
+        },
         setAllLists: setAllCountList,
         addNewList: setNewCountList,
         update: updateSingleCount,
         delete: deleteSingleCount,
-        updateName: updateSingelCountName
+        updateName: updateSingelCountName,
+        setSelectedItem,
+        unsetSelectedItem,
     };
 };
 

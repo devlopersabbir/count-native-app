@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Text,
@@ -16,14 +16,13 @@ import { AntDesign, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCount } from "../../redux/slice/countSlice";
 import { ICount } from "../../utils/interfaces/interface";
+import useCounter from "../../hooks/useCounter";
 
-const Counter = ({ navigation, route }: CounterScreen) => {
-  const { uuid }: any = route.params;
+const Counter = ({ navigation }: CounterScreen) => {
+  const { update, updateName, unsetSelectedItem, countListState } =
+    useCounter();
+
   const navigations = useNavigation();
-  const dispatch = useDispatch();
-  const list = useSelector((state: any) =>
-    state?.countReducer.lists.find((item: ICount) => item.uuid === uuid)
-  );
 
   useLayoutEffect(() => {
     navigations.setOptions({
@@ -32,17 +31,8 @@ const Counter = ({ navigation, route }: CounterScreen) => {
     });
   }, []);
 
-  const increment = () => {
-    dispatch(updateCount({ uuid, count: 1 }));
-  };
-  const decrement = () => {
-    dispatch(updateCount({ uuid, count: -1 }));
-  };
+  useEffect(() => {}, []);
 
-  const updateName = (name: string) => {};
-  // useEffect(() => {
-
-  // }, [counts]);
   return (
     <Flex flex={5}>
       <Flex flex={0.7} bg="blue.500" color="white" shadow="4">
@@ -55,7 +45,12 @@ const Counter = ({ navigation, route }: CounterScreen) => {
             w="full"
           >
             <Flex w="20%">
-              <Pressable onPress={() => navigation.goBack()}>
+              <Pressable
+                onPress={() => {
+                  unsetSelectedItem();
+                  navigation.goBack();
+                }}
+              >
                 <Icon
                   size="xl"
                   color="white"
@@ -65,9 +60,11 @@ const Counter = ({ navigation, route }: CounterScreen) => {
             </Flex>
             <Flex flexDir="row" align="center" justify="flex-end" w="80%">
               <Input
-                onChangeText={(text) => console.log(text)}
+                onChangeText={(text) =>
+                  updateName(countListState?.selectedItem?.uuid as string, text)
+                }
                 type="text"
-                defaultValue={list?.name}
+                defaultValue={countListState?.selectedItem?.name}
                 fontSize="lg"
                 fontWeight="semibold"
                 bgColor="white"
@@ -92,7 +89,7 @@ const Counter = ({ navigation, route }: CounterScreen) => {
             color="blue.500"
             fontWeight="bold"
           >
-            {list?.count}
+            {countListState?.selectedItem?.count}
           </Heading>
         </Flex>
         <HStack
@@ -107,7 +104,9 @@ const Counter = ({ navigation, route }: CounterScreen) => {
         >
           <Pressable bg="blue.100" w="48%" h="full">
             <IconButton
-              onPress={increment}
+              onPress={() =>
+                update(1, countListState?.selectedItem?.uuid as string)
+              }
               w="full"
               h="full"
               color="blue.600"
@@ -116,7 +115,9 @@ const Counter = ({ navigation, route }: CounterScreen) => {
           </Pressable>
           <Pressable bg="blue.100" w="48%" h="full">
             <IconButton
-              onPress={decrement}
+              onPress={() =>
+                update(-1, countListState?.selectedItem?.uuid as string)
+              }
               w="full"
               h="full"
               color="blue.600"

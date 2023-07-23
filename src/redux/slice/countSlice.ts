@@ -5,6 +5,7 @@ import uuid from "react-native-uuid";
 
 const initialState: ICountSliceState = {
     lists: [],
+    selectedItem: null,
 };
 
 // AsyncStorage.getItem("counterList").then((countLists: any) => {
@@ -23,10 +24,10 @@ const countListSlice = createSlice({
             state.lists = action.payload;
         },
 
-        addCountList: (state, action: PayloadAction<ICount>) => {
-            state.lists = [...(state.lists as any), action.payload];
+      addCountList: (state, action: PayloadAction<ICount>) => {
+          state.lists = [...(state.lists as any), action.payload];
 
-            saveCountLists(state.lists)
+          saveCountLists(state.lists);
       },
       updateCount: (
           state,
@@ -34,10 +35,10 @@ const countListSlice = createSlice({
       ) => {
           const { uuid, count } = action.payload;
 
-          // find and update
-          const singleList = state.lists?.find(
-              (list: ICount) => list.uuid === uuid
-          );
+        // find and update
+        const singleList = state.lists?.find(
+            (list: ICount) => list.uuid === uuid
+        );
 
           if (singleList) {
               singleList.count += count;
@@ -60,13 +61,20 @@ const countListSlice = createSlice({
           }
       },
 
-        deleteCount: (state, action: PayloadAction<{ uuid: string }>) => {
+      deleteCount: (state, action: PayloadAction<{ uuid: string }>) => {
           const { uuid } = action.payload;
           state.lists = state.lists?.filter(
               (list) => list.uuid !== uuid
           ) as ICount[];
       //   saveCountLists(state.lists);
-        },
+      },
+
+      set_selected_item: (state, action: PayloadAction<ICount>) => {
+          state.selectedItem = action.payload;
+      },
+      unset_selected_item: (state) => {
+          state.selectedItem = null;
+      },
     },
 });
 
@@ -76,5 +84,7 @@ export const {
     deleteCount,
     updateCount,
     updateName,
+    set_selected_item,
+    unset_selected_item,
 } = countListSlice.actions;
 export default countListSlice.reducer;

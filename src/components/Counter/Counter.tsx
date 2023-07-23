@@ -1,8 +1,7 @@
 import { Box, Flex, HStack, Heading, Icon, Pressable, Text } from "native-base";
 import React from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
-import { updateCount } from "../../redux/slice/countSlice";
+import useCounter from "../../hooks/useCounter";
 
 interface ICounterProps {
   count: number;
@@ -12,14 +11,7 @@ interface ICounterProps {
 }
 
 const Counter = ({ count, uuid, name, navigation }: ICounterProps) => {
-  const dispatch = useDispatch();
-
-  const increment = () => {
-    dispatch(updateCount({ uuid, count: 1 }));
-  };
-  const decrement = () => {
-    dispatch(updateCount({ uuid, count: -1 }));
-  };
+  const { update, setSelectedItem } = useCounter();
 
   return (
     <HStack
@@ -32,13 +24,10 @@ const Counter = ({ count, uuid, name, navigation }: ICounterProps) => {
       borderColor="gray.300"
     >
       <Pressable
-        onPress={() =>
-          navigation.navigate("Counter", {
-            uuid,
-            count,
-            name,
-          })
-        }
+        onPress={() => {
+          setSelectedItem({ uuid, count, name });
+          navigation.navigate("Counter");
+        }}
         display="flex"
         w="70%"
         flexDir="row"
@@ -60,7 +49,7 @@ const Counter = ({ count, uuid, name, navigation }: ICounterProps) => {
 
       <Flex w="30%" justify="center" align="center" flexDir="row">
         <Pressable
-          onPress={decrement}
+          onPress={() => update(1, uuid)}
           px={2}
           borderColor="blue.600"
           borderWidth="2"
@@ -70,7 +59,7 @@ const Counter = ({ count, uuid, name, navigation }: ICounterProps) => {
           <Icon color="blue.600" size="xl" as={<AntDesign name="minus" />} />
         </Pressable>
         <Pressable
-          onPress={increment}
+          onPress={() => update(-1, uuid)}
           px={2}
           borderTopRightRadius="md"
           borderBottomRightRadius="md"

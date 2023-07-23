@@ -22,7 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const HomeScreen = ({ navigation }: HomeScreens) => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigations = useNavigation();
-  const { setAllLists, countList } = useCounter();
+  const { setAllLists, countListState } = useCounter();
 
   useLayoutEffect(() => {
     navigations.setOptions({
@@ -64,8 +64,8 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
           {loading ? (
             <Spinner mt="50%" size="lg" />
           ) : (
-            countList &&
-            countList.map((item: ICount, index: number) => (
+            countListState?.lists &&
+            countListState?.lists?.map((item: ICount, index: number) => (
               <Counter
                 navigation={navigation}
                 uuid={item?.uuid}
