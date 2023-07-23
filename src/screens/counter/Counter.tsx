@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import React, { useLayoutEffect, useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Text,
@@ -21,8 +21,11 @@ import useCounter from "../../hooks/useCounter";
 const Counter = ({ navigation }: CounterScreen) => {
   const { update, updateName, unsetSelectedItem, countListState } =
     useCounter();
-
   const navigations = useNavigation();
+
+  const list = countListState.lists?.find(
+    (item) => item.uuid === countListState.selectedItem?.uuid
+  );
 
   useLayoutEffect(() => {
     navigations.setOptions({
@@ -30,9 +33,6 @@ const Counter = ({ navigation }: CounterScreen) => {
       animation: "slide_from_right",
     });
   }, []);
-
-  useEffect(() => {}, []);
-
   return (
     <Flex flex={5}>
       <Flex flex={0.7} bg="blue.500" color="white" shadow="4">
@@ -60,11 +60,9 @@ const Counter = ({ navigation }: CounterScreen) => {
             </Flex>
             <Flex flexDir="row" align="center" justify="flex-end" w="80%">
               <Input
-                onChangeText={(text) =>
-                  updateName(countListState?.selectedItem?.uuid as string, text)
-                }
+                onChangeText={(text) => updateName(list?.uuid as string, text)}
                 type="text"
-                defaultValue={countListState?.selectedItem?.name}
+                defaultValue={list?.name}
                 fontSize="lg"
                 fontWeight="semibold"
                 bgColor="white"
@@ -89,7 +87,7 @@ const Counter = ({ navigation }: CounterScreen) => {
             color="blue.500"
             fontWeight="bold"
           >
-            {countListState?.selectedItem?.count}
+            {list?.count}
           </Heading>
         </Flex>
         <HStack
@@ -104,9 +102,7 @@ const Counter = ({ navigation }: CounterScreen) => {
         >
           <Pressable bg="blue.100" w="48%" h="full">
             <IconButton
-              onPress={() =>
-                update(1, countListState?.selectedItem?.uuid as string)
-              }
+              onPress={() => update(1, list?.uuid as string)}
               w="full"
               h="full"
               color="blue.600"
@@ -115,9 +111,7 @@ const Counter = ({ navigation }: CounterScreen) => {
           </Pressable>
           <Pressable bg="blue.100" w="48%" h="full">
             <IconButton
-              onPress={() =>
-                update(-1, countListState?.selectedItem?.uuid as string)
-              }
+              onPress={() => update(-1, list?.uuid as string)}
               w="full"
               h="full"
               color="blue.600"

@@ -8,9 +8,6 @@ const initialState: ICountSliceState = {
     selectedItem: null,
 };
 
-// AsyncStorage.getItem("counterList").then((countLists: any) => {
-//     initialState.lists = JSON.parse(countLists);
-// });
 
 const saveCountLists = (countLists: ICount[]) => {
     AsyncStorage.setItem("count-list", JSON.stringify(countLists));
@@ -42,7 +39,7 @@ const countListSlice = createSlice({
 
           if (singleList) {
               singleList.count += count;
-              //   saveCountLists(state.lists as ICount[]);
+              saveCountLists(state.lists as ICount[]);
           }
       },
       updateName: (
@@ -57,7 +54,7 @@ const countListSlice = createSlice({
           );
           if (singleList) {
               singleList.name = name;
-              //   saveCountLists(state.lists as ICount[]);
+              saveCountLists(state.lists as ICount[]);
           }
       },
 
@@ -66,7 +63,7 @@ const countListSlice = createSlice({
           state.lists = state.lists?.filter(
               (list) => list.uuid !== uuid
           ) as ICount[];
-      //   saveCountLists(state.lists);
+          saveCountLists(state.lists);
       },
 
       set_selected_item: (state, action: PayloadAction<ICount>) => {
