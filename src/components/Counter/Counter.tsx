@@ -4,6 +4,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import useCounter from "../../hooks/useCounter";
 
 import { StyleSheet } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
 
 interface ICounterProps {
   count: number;
@@ -13,67 +14,86 @@ interface ICounterProps {
 }
 
 const Counter = ({ count, uuid, name, navigation }: ICounterProps) => {
-  const { update, setSelectedItem } = useCounter();
+  const { update, setSelectedItem, deleteSingleCount } = useCounter();
 
-  return (
-    <HStack
-      space={2}
-      shadow="3"
-      w="full"
-      h="20"
-      px={4}
-      borderWidth="1"
-      borderColor="gray.300"
-    >
-      <Pressable
-        onPress={() => {
-          setSelectedItem({ uuid, count, name });
-          navigation.navigate("Counter");
-        }}
-        display="flex"
-        w="70%"
-        flexDir="row"
-        alignItems="center"
+  const leftSwipeAction = () => {
+    return (
+      <Flex
+        w="20"
+        h="full"
+        align="flex-start"
+        justify="center"
+        pl={5}
+        bg="red.50"
       >
-        {/* <Flex> */}
-        <Flex align="flex-end" w="30%">
-          <Heading color="blue.600" fontSize="4xl">
-            {count}
-          </Heading>
-        </Flex>
-        <Box w="70%">
-          <Text color="blue.600" pl={2} fontSize="lg">
-            {name ?? "Count"}
-          </Text>
-        </Box>
-        {/* </Flex> */}
-      </Pressable>
-
-      <Flex w="30%" justify="center" align="center" flexDir="row">
-        <Pressable
-          onPress={() => update(1, uuid)}
-          px={2}
-          borderColor="blue.600"
-          borderWidth="2"
-          borderTopLeftRadius="md"
-          borderBottomLeftRadius="md"
-        >
-          <Icon color="blue.600" size="xl" as={<AntDesign name="minus" />} />
-        </Pressable>
-        <Pressable
-          onPress={() => update(-1, uuid)}
-          px={2}
-          borderTopRightRadius="md"
-          borderBottomRightRadius="md"
-          borderColor="blue.600"
-          borderRightWidth="2"
-          borderTopWidth="2"
-          borderBottomWidth="2"
-        >
-          <Icon color="blue.600" size="xl" as={<Ionicons name="md-add" />} />
+        <Pressable onPress={() => deleteSingleCount(uuid)}>
+          <Icon size="2xl" color="red.700" as={<AntDesign name="delete" />} />
         </Pressable>
       </Flex>
-    </HStack>
+    );
+  };
+  return (
+    <Swipeable renderLeftActions={leftSwipeAction}>
+      <HStack
+        space={2}
+        // shadow="3"
+        w="full"
+        h="20"
+        px={4}
+        background="gray.100"
+        borderWidth="0.5"
+        borderColor="gray.300"
+      >
+        <Pressable
+          onPress={() => {
+            setSelectedItem({ uuid, count, name });
+            navigation.navigate("Counter");
+          }}
+          display="flex"
+          w="70%"
+          flexDir="row"
+          alignItems="center"
+        >
+          {/* <Flex> */}
+          <Flex align="flex-end" w="30%">
+            <Heading color="blue.600" fontSize="4xl">
+              {count}
+            </Heading>
+          </Flex>
+          <Box w="70%">
+            <Text color="blue.600" pl={2} fontSize="lg">
+              {name ?? "Count"}
+            </Text>
+          </Box>
+          {/* </Flex> */}
+        </Pressable>
+
+        <Flex w="30%" justify="center" align="center" flexDir="row">
+          <Pressable
+            onPress={() => update(-1, uuid)}
+            px={2}
+            borderColor="blue.600"
+            borderWidth="2"
+            borderTopLeftRadius="md"
+            borderBottomLeftRadius="md"
+          >
+            <Icon color="blue.600" size="xl" as={<AntDesign name="minus" />} />
+          </Pressable>
+          <Pressable
+            onPress={() => update(1, uuid)}
+            px={2}
+            borderTopRightRadius="md"
+            borderBottomRightRadius="md"
+            borderColor="blue.600"
+            borderRightWidth="2"
+            borderTopWidth="2"
+            borderBottomWidth="2"
+          >
+            <Icon color="blue.600" size="xl" as={<Ionicons name="md-add" />} />
+          </Pressable>
+        </Flex>
+      </HStack>
+    </Swipeable>
   );
 };
 

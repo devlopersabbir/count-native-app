@@ -46,7 +46,7 @@ const useCounter = () => {
         setAllLists: setAllCountList,
         addNewList: setNewCountList,
         update: updateSingleCount,
-        delete: deleteSingleCount,
+        deleteSingleCount,
         updateName: updateSingelCountName,
         setSelectedItem,
         unsetSelectedItem,
