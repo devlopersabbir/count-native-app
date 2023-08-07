@@ -4,10 +4,14 @@ import { RootStackParamsList } from "../utils/types/type";
 import Home from "./home/HomeScreen";
 import Settings from "./settings/SettingScreen";
 import Counter from "./counter/Counter";
+import { useEffect } from "react";
 
 const RootStack = createNativeStackNavigator<RootStackParamsList>();
 
 const MainScreen = () => {
+  useEffect(()=>{
+  console.log('open:!')
+  }, [])
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Home">
