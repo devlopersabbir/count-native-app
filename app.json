@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "People Count",
+    "name": "People Counter Clicker",
     "slug": "count-native-app",
     "version": "0.0.6",
     "orientation": "portrait",
@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.devlopersabbir.countnativeapp"
+      "package": "com.devlopersabbir.countnativeapp",
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/splashLogo.png"
