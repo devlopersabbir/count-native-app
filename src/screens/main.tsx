@@ -4,14 +4,12 @@ import { RootStackParamsList } from "../utils/types/type";
 import Home from "./home/HomeScreen";
 import Settings from "./settings/SettingScreen";
 import Counter from "./counter/Counter";
-import { useEffect } from "react";
+import ReviewModal from "../components/modals/ReviewModal";
 
 const RootStack = createNativeStackNavigator<RootStackParamsList>();
 
 const MainScreen = () => {
-  useEffect(()=>{
-  console.log('open:!')
-  }, [])
+  
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Home">
@@ -19,6 +17,7 @@ const MainScreen = () => {
         <RootStack.Screen name="Settings" component={Settings} />
         <RootStack.Screen name="Counter" component={Counter} />
       </RootStack.Navigator>
+      <ReviewModal />
     </NavigationContainer>
   );
 };

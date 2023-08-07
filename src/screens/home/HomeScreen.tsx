@@ -15,17 +15,15 @@ import { HomeScreens } from "../../utils/pages/pageTypes";
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import { ICount } from "../../utils/interfaces/interface";
-import { useSelector } from "react-redux";
+
 import useCounter from "../../hooks/useCounter";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as StoreReview from "expo-store-review";
-import * as Linking from "expo-linking";
+
 
 const HomeScreen = ({ navigation }: HomeScreens) => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigations = useNavigation();
   const { setAllLists, countListState } = useCounter();
-  const androidPackageName = "com.devlopersabbir.countnativeapp";
 
   useLayoutEffect(() => {
     navigations.setOptions({
@@ -57,32 +55,7 @@ const HomeScreen = ({ navigation }: HomeScreens) => {
     getListFromStroage();
   }, []);
 
-  const checkAction = async () => {
-    if (await StoreReview.hasAction()) {
-      try {
-        const currentTimestamp = Date.now();
-        const previousTimestamp = await AsyncStorage.getItem(
-          "appLastOpenedTimestamp"
-        );
 
-        if (previousTimestamp) {
-          const timeDifferenceInHours =
-            (currentTimestamp - parseInt(previousTimestamp)) / (1000 * 60 * 60);
-          if (timeDifferenceInHours <= 3) {
-            alert("Hello there. You opened the app two times in an hour!====================================================================================");
-          }
-        }
-      } catch (error) {
-        if (error) {
-          alert("hello error!");
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    checkAction();
-  }, []);
 
   return (
     <View flex={10}>
